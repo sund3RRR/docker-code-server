@@ -1,0 +1,46 @@
+name: code-server
+services:
+  code-server:
+    environment:
+      - PASSWORD=password
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+    image: docker.io/sund3rrr/code-server:latest
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./code-server/coder
+        target: /home/coder
+      - type: bind
+        source: ./code-server/nix
+        target: /nix
+      - type: bind
+        source: ./Workspace
+        target: /home/coder/Workspace
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    networks:
+      - code-server
+    privileged: false
+  nginx:
+    image: docker.io/nginx:latest
+    ports:
+      - target: 443
+        published: "443"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./nginx/certs
+        target: /etc/nginx/certs
+      - type: bind
+        source: ./nginx/nginx.conf
+        target: /etc/nginx/nginx.conf
+    networks:
+      - code-server
+    privileged: false
+networks:
+  code-server:
+    name: code-server

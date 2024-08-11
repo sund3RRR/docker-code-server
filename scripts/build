@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -n "$VERSION" ]; then
+  docker buildx build --push --platform linux/arm64,linux/amd64 --tag sund3rrr/code-server:"$VERSION" --build-arg CODE_RELEASE="$VERSION" .
+else
+  docker buildx build --push --platform linux/arm64,linux/amd64 --tag sund3rrr/code-server:latest .
+fi

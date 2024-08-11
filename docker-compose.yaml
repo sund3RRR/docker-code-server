@@ -1,0 +1,29 @@
+name: code-server
+services:
+  code-server:
+    environment:
+      - PASSWORD=password
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+    image: docker.io/sund3rrr/code-server:latest
+    ports:
+      - target: 8080
+        published: "8080"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./code-server/coder
+        target: /home/coder
+      - type: bind
+        source: ./code-server/nix
+        target: /nix
+      - type: bind
+        source: ./Workspace
+        target: /home/coder/Workspace
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    network_mode: bridge
+    privileged: false

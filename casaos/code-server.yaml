@@ -1,0 +1,57 @@
+name: code-server
+services:
+  code-server:
+    cpu_shares: 90
+    command: []
+    container_name: code-server
+    deploy:
+      resources:
+        limits:
+          memory: 7933M
+    environment:
+      - PASSWORD=password
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/London
+    hostname: code-server
+    image: docker.io/sund3rrr/code-server:latest
+    labels:
+      icon: https://raw.githubusercontent.com/vinceliuice/WhiteSur-icon-theme/master/src/apps/scalable/visual-studio-code.svg
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/code-server/coder
+        target: /home/coder
+      - type: bind
+        source: /DATA/AppData/code-server/nix
+        target: /nix
+      - type: bind
+        source: /DATA/Workspace
+        target: /home/coder/Workspace
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    ports:
+      - target: 8080
+        published: "8080"
+        protocol: tcp
+    devices: []
+    cap_add: []
+    networks:
+      - code-server
+    privileged: false
+networks:
+  code-server:
+    name: code-server
+x-casaos:
+  author: self
+  category: self
+  hostname: ""
+  icon: https://raw.githubusercontent.com/vinceliuice/WhiteSur-icon-theme/master/src/apps/scalable/visual-studio-code.svg
+  index: /
+  is_uncontrolled: false
+  port_map: "8080"
+  scheme: http
+  store_app_id: code-server
+  title:
+    custom: VSCode
