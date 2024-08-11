@@ -75,7 +75,7 @@ The `PGID:PUID` must be set to `1000:1000` to allow the code-server full access 
 | ./nginx/nginx.conf        | /etc/nginx/nginx.conf   | Main Nginx configuration file      |
 
 ## Nix package manager
-`nix-env` is preinstalled using the `home-manager`, so you can install any packages into the container via nix.
+`nix-env` is preinstalled with the `home-manager`, so you can install any packages into the container via nix.
 
 If `/nix` and `/home/coder` are mounted, the installed packages will not disappear after restarting the container.
 
@@ -101,8 +101,8 @@ To install packages declaratively, you can edit the `~/.config/home-manager/home
     }
 ```
 
-[!WARNING]
-The first launch of `code-server` can be long due to the installation of `nix-env`.
+> [!Note]
+> The first launch of `code-server` can be long due to the installation of `nix-env`.
 
 ## Limitations
 - **Chromium-based** browsers can prohibit `code-server` from working correctly with a self-signed certificate. I don't know how to fix this error in chromium, so you can try  **Firefox** or **Safari**
